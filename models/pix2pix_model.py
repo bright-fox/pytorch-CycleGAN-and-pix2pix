@@ -87,6 +87,13 @@ class Pix2PixModel(BaseModel):
         """Run forward pass; called by both functions <optimize_parameters> and <test>."""
         self.fake_B = self.netG(self.real_A)  # G(A)
 
+    def augment(self, images):
+        """
+            images: tensor of images of shape (batch, channel, height, width)
+        """
+        with torch.no_grad():
+            return self.netG(images)
+
     def backward_D(self):
         """Calculate GAN loss for the discriminator"""
         # Fake; stop backprop to the generator by detaching fake_B
